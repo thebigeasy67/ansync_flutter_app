@@ -20,9 +20,14 @@ class GroceryItem {
   }
 
   factory GroceryItem.fromJson(Map<String, dynamic> item) {
-    GroceryItem gi = GroceryItem(item['name'], int.parse(item['amount']));
+    GroceryItem gi = GroceryItem(item['name'], item['amount']);
     gi.editing = item['editing'] == 'true';
     gi.setUuid(item['id']);
     return gi;
+  }
+
+  @override
+  String toString() {
+    return "\n\nUuid: $_uuid\nName: $name\nAmount: $amount\nEditing: $editing\n\n";
   }
 }

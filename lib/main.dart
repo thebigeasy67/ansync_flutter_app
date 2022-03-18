@@ -65,14 +65,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     Widget w = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: groceryItem.editing
           ? [
               Flexible(
                 flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.all(5),
-                  child: TextFormField(
+                  child: TextField(
                     controller: nameEditing,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
@@ -116,13 +116,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   ))
             ]
           : [
-              Text(
-                groceryItem.name + ":  ",
-                style: Theme.of(context).textTheme.button,
-              ),
-              Text(
-                groceryItem.amount.toString(),
-                style: Theme.of(context).textTheme.button,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(
+                    groceryItem.name + ":  ",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    groceryItem.amount.toString(),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  )
+                ]),
               ),
               ButtonBar(
                 children: [
@@ -131,7 +137,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (!editing) {
                         groceryItem.editing = true;
                         editing = true;
-                        _list.listEventSink.add(EditListEvent(groceryItem));
                       }
                     }),
                     icon: const Icon(Icons.edit),
@@ -152,29 +157,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('building list: $_list');
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: StreamBuilder(
-          stream: _list.list,
-          initialData: const <GroceryItem>[],
-          builder: (BuildContext context1,
-              AsyncSnapshot<List<GroceryItem>> snapshot) {
-            return ListView.builder(
-                padding: const EdgeInsets.all(10),
-                itemCount: snapshot.data?.length,
-                itemBuilder: (BuildContext context2, int index) {
-                  return Container(
-                    height: 50,
-                    margin: const EdgeInsets.all(2),
-                    color: Colors.lightBlue[200],
-                    child: Center(
-                      child: makeWidget(snapshot.data![index], context1),
-                    ),
-                  );
-                });
-          }),
+      body: FutureBuilder<GroceryList>(builder: (context, snapshot) {
+        return StreamBuilder(
+            stream: _list.list,
+            initialData: const <GroceryItem>[],
+            builder: (BuildContext context1,
+                AsyncSnapshot<List<GroceryItem>> snapshot) {
+              return ListView.builder(
+                  padding: const EdgeInsets.all(10),
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (BuildContext context2, int index) {
+                    return Container(
+                      height: 70,
+                      margin: const EdgeInsets.all(2),
+                      color: Colors.lightBlue[200],
+                      child: Center(
+                        child: makeWidget(snapshot.data![index], context1),
+                      ),
+                    );
+                  });
+            });
+      }),
       bottomSheet: Row(
         children: [
           Flexible(

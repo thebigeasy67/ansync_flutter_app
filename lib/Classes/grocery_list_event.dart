@@ -24,17 +24,6 @@ class RemoveFromListEvent extends GroceryListEvent {
   }
 }
 
-class EditListEvent extends GroceryListEvent {
-  GroceryItem item = GroceryItem.e();
-  EditListEvent(GroceryItem i) {
-    item = i;
-  }
-
-  GroceryItem getItem() {
-    return item;
-  }
-}
-
 class SaveListEvent extends GroceryListEvent {
   GroceryItem item = GroceryItem.e();
   SaveListEvent(GroceryItem i) {
@@ -44,4 +33,8 @@ class SaveListEvent extends GroceryListEvent {
   GroceryItem getItem() {
     return item;
   }
+}
+
+class LoadListEvent extends GroceryListEvent {
+  LoadListEvent();
 }
