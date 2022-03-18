@@ -62,6 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
     if (groceryItem.editing) {
       nameEditing.text = groceryItem.name;
       amountEditing.text = groceryItem.amount.toString();
+
+      nameEditing.selection = TextSelection.fromPosition(
+          TextPosition(offset: nameEditing.text.length));
+      amountEditing.selection = TextSelection.fromPosition(
+          TextPosition(offset: amountEditing.text.length));
     }
 
     Widget w = Row(
@@ -232,5 +237,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _list.dispose();
+    super.dispose();
   }
 }

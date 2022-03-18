@@ -101,4 +101,8 @@ class GroceryList {
     }
     return s;
   }
+
+  void dispose() {
+    dispose();
+  }
 }
